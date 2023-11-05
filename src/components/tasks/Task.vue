@@ -1,48 +1,51 @@
 <template>
      <li class="list-group-item py-3">
-                <div class="d-flex justify-content-start align-items-center">
-                  <input
-                    class="form-check-input mt-0" :class="completedClass"
-                    type="checkbox" :checked="task.is_completed"
-                  />
+        <div class="d-flex justify-content-start align-items-center">
+          <input
+            class="form-check-input mt-0" :class="completedClass"
+            type="checkbox" :checked="task.is_completed"
+          />
 
-                  <div
-                    class="ms-2 flex-grow-1" :class="completedClass"
-                    title="Double click the text to edit or remove"
-                  >
-                    <!-- <div class="relative">
+          <div
+            class="ms-2 flex-grow-1" 
+            :class="completedClass"
+            title="Double click the text to edit or remove"
+            @dblclick="$event => isEdit = true"
+          >
+          <div class="relative" v-if="isEdit">
+            <input class="editable-task" 
+            type="text"
+            @keyup.esc="$event => isEdit = false" v-focus
+            @keyup.enter="updateTask"/>
+          </div>
 
-                                            <input class="editable-task" type="text" />
-
-                                        </div> -->
-
-                    <span>{{ task.name }}</span>
-                  </div>
-
-                  <div class="task-date">24 Feb 12:00</div>
-                </div>
-
-                <div class="task-actions">
-                  <button
-                    class="btn btn-sm btn-circle btn-outline-secondary me-1"
-                  >
-                   <IconPen />
-                  </button>                  
-                  <button class="btn btn-sm btn-circle btn-outline-danger">
-                    <IconTrash />
-                  </button>
-                </div>
-              </li>
+            <span v-else>{{ task.name }}</span>
+          </div>                  
+        </div>
+        <TaskAction @edit="$event => isEdit = true" v-show="!isEdit"/>
+      </li>
 </template>
 
 <script setup>
-import { computed } from "vue";
-import IconPen from "../icons/IconPen.vue";
-import IconTrash from "../icons/IconTrash.vue";
+import { computed, ref } from "vue";
+import TaskAction from  "../tasks/TaskAction.vue"
 
 const props = defineProps({
     task: Object
 })
 
+const emit = defineEmits(['updated'])
+
+const isEdit = ref(false)
 const completedClass = computed(() => props.task.is_completed ? "completed" : "")
+const vFocus = {
+  mounted: (el) => el.focus()
+}
+
+const updateTask = event => {
+  const updateTask = { ...props.task, name: event.target.value }
+  isEdit.value = false
+  emit('updated', updateTask)
+}
+
 </script>
