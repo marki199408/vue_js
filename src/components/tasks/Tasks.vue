@@ -7,7 +7,7 @@
                 :key="task.id" 
                 @updated="handleUpdatedTask"
                 @completed="handleCompletedTask"
-                @removed="handleRemoveTask"
+                @removed="handleRemovedTask"
                 />
             </ul>
           </div>
@@ -18,7 +18,7 @@ import { useTaskStore } from "../../stores/task";
 
 const store = useTaskStore()
 
-const { handleUpdatedTask, handleCompletedTask, handleRemoveTask } = store
+const { handleUpdatedTask, handleCompletedTask, handleRemovedTask } = store
 defineProps({
     tasks: Array,
     show : {

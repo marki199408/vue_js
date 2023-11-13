@@ -8,10 +8,7 @@
         <NewTask />
 
           <!-- List of tasks -->
-          <Tasks :tasks="uncompletedTasks" 
-                  @updated="handleUpdatedTask"
-                  @completed="handleCompletedTask"
-                  @removed="handleRemovedTask"
+          <Tasks :tasks="uncompletedTasks"                  
           />
 
           <div class="text-center my-3" v-show="showToggleCompletedBtn">
@@ -22,10 +19,7 @@
           </div>
 
           <Tasks :tasks="completedTasks" 
-                 :show="completedTasksIsVisible && showCompletedTask"
-                 @updated="handleUpdatedTask"
-                 @completed="handleCompletedTask"
-                 @removed="handleRemovedTask"
+                 :show="completedTasksIsVisible && showCompletedTask"                
           />
           
         </div>
